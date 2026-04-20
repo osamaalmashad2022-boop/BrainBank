@@ -27,6 +27,126 @@
             pointer-events: none;
         }
 
+        /* ---- Hero Branding ---- */
+        .hero-branding {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 32px;
+            animation: fadeSlideUp 1s ease 0.1s both;
+        }
+
+        .hero-logo-wrapper {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+            animation: heroLogoFloat 4s ease-in-out infinite;
+        }
+
+        .hero-logo-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 0 40px rgba(108, 99, 255, 0.4), 0 0 80px rgba(108, 99, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-logo-ring {
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: var(--color-primary);
+            border-right-color: var(--color-secondary);
+            animation: heroRingSpin 6s linear infinite;
+            z-index: 1;
+        }
+
+        .hero-logo-ring::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 1px solid transparent;
+            border-bottom-color: rgba(139, 92, 246, 0.3);
+            border-left-color: rgba(6, 214, 160, 0.2);
+            animation: heroRingSpin 4s linear infinite reverse;
+        }
+
+        @keyframes heroLogoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        @keyframes heroRingSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hero-brand-name {
+            font-size: 3.2rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #6C63FF 0%, #8B5CF6 30%, #A78BFA 55%, #06D6A0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            direction: ltr;
+            unicode-bidi: bidi-override;
+            margin-bottom: 8px;
+            min-height: 3.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+        }
+
+        .hero-brand-name .hero-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 0.9em;
+            margin-left: 3px;
+            border-radius: 2px;
+            background: linear-gradient(to bottom, #6C63FF, #8B5CF6, #06D6A0);
+            animation: brandCursorBlink 1s step-end infinite;
+            -webkit-text-fill-color: initial;
+            vertical-align: middle;
+        }
+
+        .hero-brand-tagline {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 300;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            min-height: 1.5rem;
+        }
+
+        .hero-brand-tagline.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .hero-logo-wrapper { width: 90px; height: 90px; }
+            .hero-brand-name { font-size: 2.2rem; min-height: 2.6rem; }
+            .hero-brand-tagline { font-size: 0.85rem; letter-spacing: 2px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-logo-wrapper { width: 72px; height: 72px; }
+            .hero-brand-name { font-size: 1.8rem; min-height: 2.2rem; }
+            .hero-brand-tagline { font-size: 0.75rem; }
+        }
+
         .hero-bg-glow {
             position: absolute;
             width: 600px;
@@ -84,6 +204,7 @@
             line-height: 1.2;
             margin-bottom: 12px;
             animation: fadeSlideUp 0.8s ease 0.2s both;
+            min-height: 4.5em;
         }
 
         .hero-title .gradient-text {
@@ -91,6 +212,17 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+        }
+
+        .hero-title-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 0.85em;
+            margin-right: 4px;
+            border-radius: 2px;
+            background: var(--gradient-primary);
+            animation: brandCursorBlink 1s step-end infinite;
+            vertical-align: middle;
         }
 
         .hero-title .accent-text {
@@ -116,23 +248,29 @@
             align-items: center;
             justify-content: center;
             gap: 16px;
-            margin-bottom: 60px;
             animation: fadeSlideUp 0.8s ease 0.4s both;
         }
 
-        .hero-stats {
+        /* ---- Stats Section ---- */
+        .stats-section {
+            position: relative;
+            z-index: 2;
+            padding: 60px 0 80px;
+        }
+
+        .stats-row {
             display: flex;
             justify-content: center;
-            gap: 48px;
+            gap: 56px;
             animation: fadeSlideUp 0.8s ease 0.5s both;
         }
 
-        .hero-stat {
+        .stats-row .stat-item {
             text-align: center;
         }
 
-        .hero-stat-value {
-            font-size: 2rem;
+        .stats-row .stat-value {
+            font-size: 2.2rem;
             font-weight: 800;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
@@ -140,10 +278,20 @@
             background-clip: text;
         }
 
-        .hero-stat-label {
+        .stats-row .stat-label {
             font-size: 0.85rem;
             color: var(--text-muted);
             margin-top: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-row { gap: 28px; }
+            .stats-row .stat-value { font-size: 1.7rem; }
+        }
+
+        @media (max-width: 480px) {
+            .stats-row { gap: 20px; flex-wrap: wrap; }
+            .stats-row .stat-value { font-size: 1.4rem; }
         }
 
         /* ---- Features Section ---- */
@@ -400,7 +548,6 @@
             .hero-title { font-size: 2rem; }
             .hero-subtitle { font-size: 1rem; }
             .hero-actions { flex-direction: column; }
-            .hero-stats { gap: 24px; }
             .features-grid { grid-template-columns: 1fr; }
             .steps-container { flex-direction: column; }
             .step-connector { display: none !important; }
@@ -411,7 +558,6 @@
 
         @media (max-width: 480px) {
             .hero-title { font-size: 1.7rem; }
-            .hero-stat-value { font-size: 1.5rem; }
             .sources-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
@@ -427,8 +573,8 @@
             <a href="index.html" class="nav-brand">
                 <img src="img/logo.png" alt="BrainBank" class="nav-logo">
                 <div class="brand-text">
-                    <span data-ar="BrainBank OAE" data-en="BrainBank OAE">BrainBank OAE</span>
-                    <small data-ar="بنوك أسئلة ذكية" data-en="Smart Question Banks">بنوك أسئلة ذكية</small>
+                    <span class="brand-name" data-typewriter="BrainBank OAE"></span>
+                    <small><span class="subtitle-typewriter" data-ar="بنوك أسئلة ذكية" data-en="Smart Question Banks">بنوك أسئلة ذكية</span></small>
                 </div>
             </a>
 
@@ -457,15 +603,21 @@
 
         <div class="container">
             <div class="hero-content">
+                <!-- Hero Branding -->
+                <div class="hero-branding">
+                    <div class="hero-logo-wrapper">
+                        <img src="img/logo.png" alt="BrainBank OAE" class="hero-logo-img">
+                        <div class="hero-logo-ring"></div>
+                    </div>
+                    <h2 class="hero-brand-name" id="heroBrandName"></h2>
+                </div>
+
                 <div class="hero-badge">
                     <span class="pulse-dot"></span>
                     <span data-ar="مدعوم بالذكاء الاصطناعي Gemini" data-en="Powered by Gemini AI">مدعوم بالذكاء الاصطناعي Gemini</span>
                 </div>
 
-                <h1 class="hero-title">
-                    <span data-ar="أنشئ بنوك أسئلة" data-en="Create Question Banks">أنشئ بنوك أسئلة</span><br>
-                    <span class="gradient-text" data-ar="احترافية في ثوانٍ" data-en="Professionally in Seconds">احترافية في ثوانٍ</span>
-                </h1>
+                <h1 class="hero-title" id="heroTitle"></h1>
 
                 <p class="hero-subtitle" data-ar="حوّل أي محتوى إلى بنك أسئلة متكامل باستخدام الذكاء الاصطناعي. من نصوص، ملفات، روابط، صور، أو حتى مجرد موضوع." data-en="Transform any content into a complete question bank using AI. From texts, files, URLs, images, or even just a topic.">
                     حوّل أي محتوى إلى بنك أسئلة متكامل باستخدام الذكاء الاصطناعي. من نصوص، ملفات، روابط، صور، أو حتى مجرد موضوع.
@@ -482,23 +634,30 @@
                     </a>
                 </div>
 
-                <div class="hero-stats">
-                    <div class="hero-stat">
-                        <div class="hero-stat-value" id="statQuestions">0</div>
-                        <div class="hero-stat-label" data-ar="سؤال جاهز" data-en="Ready Questions">سؤال جاهز</div>
-                    </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-value" id="statTypes">6</div>
-                        <div class="hero-stat-label" data-ar="أنواع أسئلة" data-en="Question Types">أنواع أسئلة</div>
-                    </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-value" id="statSources">5</div>
-                        <div class="hero-stat-label" data-ar="مصادر إدخال" data-en="Input Sources">مصادر إدخال</div>
-                    </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-value" id="statBanks">0</div>
-                        <div class="hero-stat-label" data-ar="بنك محفوظ" data-en="Saved Banks">بنك محفوظ</div>
-                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-value" id="statQuestions">0</div>
+                    <div class="stat-label" data-ar="سؤال جاهز" data-en="Ready Questions">سؤال جاهز</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="statTypes">6</div>
+                    <div class="stat-label" data-ar="أنواع أسئلة" data-en="Question Types">أنواع أسئلة</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="statSources">5</div>
+                    <div class="stat-label" data-ar="مصادر إدخال" data-en="Input Sources">مصادر إدخال</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="statBanks">0</div>
+                    <div class="stat-label" data-ar="بنك محفوظ" data-en="Saved Banks">بنك محفوظ</div>
                 </div>
             </div>
         </div>
@@ -686,20 +845,110 @@
     <script src="config.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/brand-typewriter.js"></script>
     <script src="js/particles.js"></script>
     <script>
         // Initialize particles
         const ps = new ParticleSystem('particles-canvas');
 
-        // Animate stats
-        window.addEventListener('load', () => {
-            const stats = StorageManager.getStats();
-            const banks = StorageManager.getAllBanks();
-            const totalQuestions = banks.reduce((sum, b) => sum + (b.questions ? b.questions.length : 0), 0) + 140;
+        // Animate stats when scrolled into view
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const banks = StorageManager.getAllBanks();
+                        const totalQuestions = banks.reduce((sum, b) => sum + (b.questions ? b.questions.length : 0), 0) + 140;
 
-            App.animateCounter(document.getElementById('statQuestions'), totalQuestions);
-            App.animateCounter(document.getElementById('statBanks'), banks.length);
-        });
+                        App.animateCounter(document.getElementById('statQuestions'), totalQuestions);
+                        App.animateCounter(document.getElementById('statTypes'), 6);
+                        App.animateCounter(document.getElementById('statSources'), 5);
+                        App.animateCounter(document.getElementById('statBanks'), banks.length);
+                        statsObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.3 });
+            statsObserver.observe(statsSection);
+        }
+
+        // Hero Brand Typewriter + Hero Title Typewriter
+        (function() {
+            const brandName = 'BrainBank OAE';
+            const titleLine1Ar = 'أنشئ بنوك أسئلة';
+            const titleLine2Ar = 'احترافية في ثوانٍ';
+            const titleLine1En = 'Create Question Banks';
+            const titleLine2En = 'Professionally in Seconds';
+
+            const brandEl = document.getElementById('heroBrandName');
+            const titleEl = document.getElementById('heroTitle');
+            if (!brandEl || !titleEl) return;
+
+            // Setup brand name
+            const brandText = document.createElement('span');
+            const brandCursor = document.createElement('span');
+            brandCursor.className = 'hero-cursor';
+            brandEl.appendChild(brandText);
+            brandEl.appendChild(brandCursor);
+
+            // Helper: type text into element, then call onDone
+            function typeText(text, targetSpan, speed, onDone) {
+                let idx = 0;
+                const iv = setInterval(() => {
+                    if (idx < text.length) {
+                        targetSpan.textContent += text[idx];
+                        idx++;
+                    } else {
+                        clearInterval(iv);
+                        if (onDone) onDone();
+                    }
+                }, speed);
+            }
+
+            // Step 1: Type brand name
+            setTimeout(() => {
+                typeText(brandName, brandText, 120, () => {
+                    // Fade brand cursor
+                    setTimeout(() => {
+                        brandCursor.style.transition = 'opacity 0.5s ease';
+                        brandCursor.style.opacity = '0';
+                    }, 800);
+
+                    // Step 2: Type hero title line 1 after short delay
+                    setTimeout(() => {
+                        // Create line 1 span
+                        const line1 = document.createElement('span');
+                        line1.setAttribute('data-ar', titleLine1Ar);
+                        line1.setAttribute('data-en', titleLine1En);
+                        titleEl.appendChild(line1);
+
+                        // Create cursor for title
+                        const titleCursor = document.createElement('span');
+                        titleCursor.className = 'hero-title-cursor';
+                        titleEl.appendChild(titleCursor);
+
+                        typeText(titleLine1Ar, line1, 80, () => {
+                            // Add line break
+                            titleEl.insertBefore(document.createElement('br'), titleCursor);
+
+                            // Step 3: Type hero title line 2
+                            const line2 = document.createElement('span');
+                            line2.className = 'gradient-text';
+                            line2.setAttribute('data-ar', titleLine2Ar);
+                            line2.setAttribute('data-en', titleLine2En);
+                            titleEl.insertBefore(line2, titleCursor);
+
+                            typeText(titleLine2Ar, line2, 80, () => {
+                                // Fade title cursor
+                                setTimeout(() => {
+                                    titleCursor.style.transition = 'opacity 0.5s ease';
+                                    titleCursor.style.opacity = '0';
+                                }, 1500);
+                            });
+                        });
+                    }, 500);
+                });
+            }, 500);
+        })();
     </script>
 </body>
 </html>

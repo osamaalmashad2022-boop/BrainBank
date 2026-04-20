@@ -206,12 +206,56 @@ button { cursor: pointer; }
     line-height: 1.2;
 }
 
+.brand-text .brand-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    font-size: 1.4rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #6C63FF 0%, #8B5CF6 35%, #A78BFA 60%, #06D6A0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+    direction: ltr;
+    unicode-bidi: bidi-override;
+}
+
+.brand-name .typewriter-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.1em;
+    margin-left: 2px;
+    border-radius: 1px;
+    background: linear-gradient(to bottom, #6C63FF, #8B5CF6, #06D6A0);
+    animation: brandCursorBlink 1s step-end infinite;
+    vertical-align: middle;
+    -webkit-text-fill-color: initial;
+}
+
+@keyframes brandCursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
 .brand-text small {
     font-size: 0.6rem;
     font-weight: 400;
     color: var(--text-muted);
     letter-spacing: 2px;
     text-transform: uppercase;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.brand-text .subtitle-typewriter {
+    display: inline-block;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.brand-text .subtitle-typewriter.visible {
+    opacity: 1;
 }
 
 .nav-links {
