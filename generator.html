@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المولّد | BrainBank OAE</title>
+    
+    <!-- Favicon & Open Graph -->
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <meta property="og:title" content="المولّد | BrainBank OAE">
+    <meta property="og:description" content="قم بتوليد بنوك الأسئلة الذكية فوراً عبر النصوص، الصور، والملفات.">
+    <meta property="og:image" content="img/logo.png">
+    <meta property="og:type" content="website">
+
+    <meta name="description" content="ولّد بنوك أسئلة احترافية من نصوص وملفات وروابط باستخدام الذكاء الاصطناعي">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/generator.css">
+</head>
+<body>
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">
+                <img src="img/logo.png" alt="BrainBank" class="nav-logo">
+                <div class="brand-text">
+                    <span>BrainBank OAE</span>
+                    <small data-ar="بنوك أسئلة ذكية" data-en="Smart Question Banks">بنوك أسئلة ذكية</small>
+                </div>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                <a href="generator.html" class="nav-link active" data-ar="المولّد" data-en="Generator">المولّد</a>
+                <a href="my-banks.html" class="nav-link" data-ar="بنوكي" data-en="My Banks">بنوكي</a>
+                <a href="ai-bank.html" class="nav-link" data-ar="بنك الذكاء الاصطناعي" data-en="AI Bank">بنك الذكاء الاصطناعي</a>
+                <a href="dashboard.html" class="nav-link" data-ar="الإحصائيات" data-en="Dashboard">الإحصائيات</a>
+            </div>
+            <div class="nav-actions">
+                <button class="lang-toggle" id="langToggle">EN</button>
+                <div class="mobile-toggle" id="mobileToggle"><span></span><span></span><span></span></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <main class="page-content">
+        <div class="container">
+            <div class="page-title-section">
+                <h1 class="page-title" data-ar="⚡ مولّد بنوك الأسئلة" data-en="⚡ Question Bank Generator">⚡ مولّد بنوك الأسئلة</h1>
+                <p class="page-subtitle" data-ar="اختر مصدر المحتوى وخصّص الإعدادات لتوليد أسئلة احترافية فوراً" data-en="Choose content source and customize settings to generate questions instantly">اختر مصدر المحتوى وخصّص الإعدادات لتوليد أسئلة احترافية فوراً</p>
+            </div>
+
+            <div class="generator-layout">
+                <!-- Main Input Area -->
+                <div class="input-area">
+                    <!-- Input Method Tabs -->
+                    <div class="tabs input-tabs" id="inputTabs">
+                        <div class="tab active" data-tab="text"><span class="tab-icon">📝</span> <span data-ar="نص" data-en="Text">نص</span></div>
+                        <div class="tab" data-tab="topic"><span class="tab-icon">💡</span> <span data-ar="موضوع" data-en="Topic">موضوع</span></div>
+                        <div class="tab" data-tab="url"><span class="tab-icon">🔗</span> <span data-ar="رابط" data-en="URL">رابط</span></div>
+                        <div class="tab" data-tab="file"><span class="tab-icon">📁</span> <span data-ar="ملف" data-en="File">ملف</span></div>
+                        <div class="tab" data-tab="image"><span class="tab-icon">🖼️</span> <span data-ar="صورة" data-en="Image">صورة</span></div>
+                    </div>
+
+                    <!-- Text Panel -->
+                    <div class="input-panel active" id="panel-text">
+                        <div class="glass-card-static">
+                            <label class="form-label" data-ar="الصق النص هنا لتوليد أسئلة منه" data-en="Paste text here to generate questions">الصق النص هنا لتوليد أسئلة منه</label>
+                            <textarea class="form-textarea text-input-area" id="textInput" data-placeholder-ar="الصق المحتوى هنا... يمكنك لصق فقرات، مقالات، ملاحظات دراسية، أو أي نص تعليمي" data-placeholder-en="Paste content here... paragraphs, articles, study notes, or any educational text" placeholder="الصق المحتوى هنا... يمكنك لصق فقرات، مقالات، ملاحظات دراسية، أو أي نص تعليمي"></textarea>
+                            <div class="flex justify-between items-center mt-1">
+                                <span class="text-muted" style="font-size:0.8rem" id="charCount">0 <span data-ar="حرف" data-en="chars">حرف</span></span>
+                                <button class="btn btn-ghost btn-sm" id="clearTextBtn" data-ar="مسح" data-en="Clear">مسح</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic Panel -->
+                    <div class="input-panel" id="panel-topic">
+                        <div class="glass-card-static">
+                            <label class="form-label" data-ar="اكتب اسم الموضوع وسينشئ الذكاء الاصطناعي أسئلة شاملة عنه" data-en="Type a topic and AI will generate comprehensive questions about it">اكتب اسم الموضوع وسينشئ الذكاء الاصطناعي أسئلة شاملة عنه</label>
+                            <input type="text" class="form-input" id="topicInput" data-placeholder-ar="مثال: الخلية النباتية، الحرب العالمية الثانية، البرمجة بلغة Python..." data-placeholder-en="e.g., Plant Cell, World War II, Python Programming..." placeholder="مثال: الخلية النباتية، الحرب العالمية الثانية، البرمجة بلغة Python...">
+                            <div class="topic-suggestions mt-2">
+                                <span class="topic-chip" data-topic="الذكاء الاصطناعي">🤖 الذكاء الاصطناعي</span>
+                                <span class="topic-chip" data-topic="البرمجة بلغة Python">🐍 Python</span>
+                                <span class="topic-chip" data-topic="الرياضيات">📐 الرياضيات</span>
+                                <span class="topic-chip" data-topic="الفيزياء">⚛️ الفيزياء</span>
+                                <span class="topic-chip" data-topic="التاريخ الإسلامي">🕌 التاريخ الإسلامي</span>
+                                <span class="topic-chip" data-topic="علم النفس">🧠 علم النفس</span>
+                                <span class="topic-chip" data-topic="الأحياء">🧬 الأحياء</span>
+                                <span class="topic-chip" data-topic="الكيمياء">⚗️ الكيمياء</span>
+                                <span class="topic-chip" data-topic="شبكات الحاسوب">🌐 الشبكات</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- URL Panel -->
+                    <div class="input-panel" id="panel-url">
+                        <div class="glass-card-static">
+                            <label class="form-label" data-ar="أدخل رابط صفحة ويب لاستخراج المحتوى وتوليد أسئلة" data-en="Enter a webpage URL to extract content and generate questions">أدخل رابط صفحة ويب لاستخراج المحتوى وتوليد أسئلة</label>
+                            <div class="url-input-wrapper">
+                                <input type="url" class="form-input" id="urlInput" placeholder="https://example.com/article" dir="ltr">
+                            </div>
+                            <p class="text-muted mt-2" style="font-size:0.8rem">
+                                <span data-ar="💡 ملاحظة: سيقوم الذكاء الاصطناعي بقراءة محتوى الرابط وتوليد أسئلة بناءً عليه" data-en="💡 Note: AI will read the URL content and generate questions based on it">💡 ملاحظة: سيقوم الذكاء الاصطناعي بقراءة محتوى الرابط وتوليد أسئلة بناءً عليه</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- File Panel -->
+                    <div class="input-panel" id="panel-file">
+                        <div class="glass-card-static">
+                            <div class="file-drop-zone" id="fileDropZone">
+                                <input type="file" class="file-drop-input" id="fileInput" accept=".txt,.pdf,.docx,.doc">
+                                <span class="file-drop-icon">📂</span>
+                                <div class="file-drop-title" data-ar="اسحب الملف هنا أو انقر للاختيار" data-en="Drag file here or click to choose">اسحب الملف هنا أو انقر للاختيار</div>
+                                <div class="file-drop-desc" data-ar="يدعم: TXT, PDF, DOCX (حتى 5 ميجابايت)" data-en="Supports: TXT, PDF, DOCX (up to 5MB)">يدعم: TXT, PDF, DOCX (حتى 5 ميجابايت)</div>
+                                <button class="btn btn-outline btn-sm" style="pointer-events:none" data-ar="اختر ملفاً" data-en="Choose File">اختر ملفاً</button>
+                            </div>
+                            <div class="file-info" id="fileInfo">
+                                <span class="file-info-icon">📄</span>
+                                <div class="file-info-details">
+                                    <div class="file-info-name" id="fileName"></div>
+                                    <div class="file-info-size" id="fileSize"></div>
+                                </div>
+                                <button class="file-remove" id="fileRemove" title="إزالة">✕</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image Panel -->
+                    <div class="input-panel" id="panel-image">
+                        <div class="glass-card-static">
+                            <div class="file-drop-zone" id="imageDropZone">
+                                <input type="file" class="file-drop-input" id="imageInput" accept="image/*">
+                                <span class="file-drop-icon">🖼️</span>
+                                <div class="file-drop-title" data-ar="اسحب صورة هنا أو انقر للاختيار" data-en="Drag image here or click to choose">اسحب صورة هنا أو انقر للاختيار</div>
+                                <div class="file-drop-desc" data-ar="يدعم: JPG, PNG, WEBP (حتى 10 ميجابايت)" data-en="Supports: JPG, PNG, WEBP (up to 10MB)">يدعم: JPG, PNG, WEBP (حتى 10 ميجابايت)</div>
+                                <button class="btn btn-outline btn-sm" style="pointer-events:none" data-ar="اختر صورة" data-en="Choose Image">اختر صورة</button>
+                            </div>
+                            <div class="image-preview" id="imagePreview">
+                                <img id="imagePreviewImg" src="" alt="Preview">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results Section -->
+                    <div class="results-section" id="resultsSection">
+                        <div class="results-header">
+                            <h2 class="results-title" data-ar="📋 الأسئلة المُولَّدة" data-en="📋 Generated Questions">📋 الأسئلة المُولَّدة</h2>
+                            <div class="results-actions">
+                                <button class="btn btn-secondary btn-sm" id="saveResultsBtn">
+                                    <span>💾</span> <span data-ar="حفظ البنك" data-en="Save Bank">حفظ البنك</span>
+                                </button>
+                                <button class="btn btn-outline btn-sm" id="regenerateBtn">
+                                    <span>🔄</span> <span data-ar="إعادة توليد" data-en="Regenerate">إعادة توليد</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="results-meta" id="resultsMeta"></div>
+                        <div id="questionsContainer"></div>
+
+                        <!-- Save Form -->
+                        <div class="save-bank-form" id="saveBankForm">
+                            <h3 class="mb-2" data-ar="💾 حفظ البنك" data-en="💾 Save Bank">💾 حفظ البنك</h3>
+                            <div class="form-group">
+                                <label class="form-label" data-ar="اسم البنك" data-en="Bank Name">اسم البنك</label>
+                                <input type="text" class="form-input" id="bankNameInput" data-placeholder-ar="أدخل اسماً للبنك..." data-placeholder-en="Enter bank name..." placeholder="أدخل اسماً للبنك...">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-ar="الوسوم (اختياري)" data-en="Tags (optional)">الوسوم (اختياري)</label>
+                                <input type="text" class="form-input" id="bankTagsInput" data-placeholder-ar="أدخل وسوم مفصولة بفاصلة..." data-placeholder-en="Enter comma-separated tags..." placeholder="أدخل وسوم مفصولة بفاصلة...">
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="btn btn-primary" id="confirmSaveBtn">
+                                    <span>✓</span> <span data-ar="حفظ" data-en="Save">حفظ</span>
+                                </button>
+                                <button class="btn btn-outline" id="cancelSaveBtn">
+                                    <span data-ar="إلغاء" data-en="Cancel">إلغاء</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Sidebar -->
+                <div class="settings-sidebar">
+                    <div class="settings-card">
+                        <h3 class="settings-title">
+                            <span>⚙️</span>
+                            <span data-ar="إعدادات التوليد" data-en="Generation Settings">إعدادات التوليد</span>
+                        </h3>
+
+                        <div class="setting-group">
+                            <label class="setting-label" data-ar="نوع الأسئلة" data-en="Question Type">نوع الأسئلة</label>
+                            <select class="form-select" id="questionType">
+                                <option value="mcq" data-ar="اختيار من متعدد" data-en="Multiple Choice">اختيار من متعدد</option>
+                                <option value="truefalse" data-ar="صواب / خطأ" data-en="True / False">صواب / خطأ</option>
+                                <option value="fillblank" data-ar="أكمل الفراغ" data-en="Fill in the Blank">أكمل الفراغ</option>
+                                <option value="matching" data-ar="مطابقة" data-en="Matching">مطابقة</option>
+                                <option value="shortanswer" data-ar="إجابة قصيرة" data-en="Short Answer">إجابة قصيرة</option>
+                                <option value="essay" data-ar="مقالي" data-en="Essay">مقالي</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="setting-label" data-ar="مستوى الصعوبة" data-en="Difficulty Level">مستوى الصعوبة</label>
+                            <div class="difficulty-selector" id="difficultySelector">
+                                <div class="diff-option easy" data-diff="easy" data-ar="سهل 🟢" data-en="Easy 🟢">سهل 🟢</div>
+                                <div class="diff-option medium active" data-diff="medium" data-ar="متوسط 🟡" data-en="Medium 🟡">متوسط 🟡</div>
+                                <div class="diff-option hard" data-diff="hard" data-ar="صعب 🔴" data-en="Hard 🔴">صعب 🔴</div>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="setting-label" data-ar="عدد الأسئلة" data-en="Number of Questions">عدد الأسئلة</label>
+                            <div class="count-slider">
+                                <input type="range" id="questionCount" min="5" max="30" value="10">
+                                <span class="count-value" id="countDisplay">10</span>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="setting-label" data-ar="مستوى بلوم" data-en="Bloom's Level">مستوى بلوم</label>
+                            <select class="form-select" id="bloomLevel">
+                                <option value="remembering" data-ar="تذكّر" data-en="Remembering">تذكّر</option>
+                                <option value="understanding" selected data-ar="فهم" data-en="Understanding">فهم</option>
+                                <option value="applying" data-ar="تطبيق" data-en="Applying">تطبيق</option>
+                                <option value="analyzing" data-ar="تحليل" data-en="Analyzing">تحليل</option>
+                                <option value="evaluating" data-ar="تقييم" data-en="Evaluating">تقييم</option>
+                                <option value="creating" data-ar="إبداع" data-en="Creating">إبداع</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="setting-label" data-ar="لغة الأسئلة" data-en="Questions Language">لغة الأسئلة</label>
+                            <select class="form-select" id="questionLang">
+                                <option value="ar">العربية</option>
+                                <option value="en">English</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-primary generate-btn" id="generateBtn">
+                            <span>⚡</span>
+                            <span data-ar="توليد الأسئلة" data-en="Generate Questions">توليد الأسئلة</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <img src="img/logo.png" alt="BrainBank OAE" class="footer-logo">
+                        <span>BrainBank OAE</span>
+                    </div>
+                    <p class="footer-desc" data-ar="منصة ذكية متقدمة لتوليد وإدارة بنوك الأسئلة باستخدام قدرات الذكاء الاصطناعي." data-en="Advanced smart platform for generating and managing question banks using AI capabilities.">منصة ذكية متقدمة لتوليد وإدارة بنوك الأسئلة باستخدام قدرات الذكاء الاصطناعي.</p>
+                </div>
+                <div class="footer-section">
+                    <h4 data-ar="روابط سريعة" data-en="Quick Links">روابط سريعة</h4>
+                    <div class="footer-links">
+                        <a href="generator.html" class="footer-link" data-ar="المولّد" data-en="Generator">المولّد</a>
+                        <a href="my-banks.html" class="footer-link" data-ar="بنوكي" data-en="My Banks">بنوكي</a>
+                        <a href="ai-bank.html" class="footer-link" data-ar="بنك الذكاء الاصطناعي" data-en="AI Bank">بنك الذكاء الاصطناعي</a>
+                        <a href="dashboard.html" class="footer-link" data-ar="الإحصائيات" data-en="Dashboard">الإحصائيات</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4 data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</h4>
+                    <a href="https://wa.me/201011868045" class="contact-number" dir="ltr" target="_blank">📱 01011868045</a>
+                    <div class="social-icons">
+                        <a href="https://wa.me/201011868045" target="_blank" class="social-icon" title="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></a>
+                        <a href="https://www.facebook.com/share/1HMxedGmGJ/" target="_blank" class="social-icon" title="Facebook"><svg viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm3 8h-1.35c-.538 0-.65.221-.65.778v1.222h2l-.209 2h-1.791v7h-3v-7h-2v-2h2v-2.308c0-1.769.931-2.692 3.029-2.692h1.971v3z"/></svg></a>
+                        <a href="https://youtube.com/@osospiracy5468?si=_SKB4Z-yZtEt14L-" target="_blank" class="social-icon" title="YouTube"><svg viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg></a>
+                        <a href="https://www.linkedin.com/in/osama-almashad-9324b3340?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="social-icon" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copy" data-ar="© 2026 BrainBank OAE. جميع الحقوق محفوظة." data-en="© 2026 BrainBank OAE. All rights reserved.">© 2026 BrainBank OAE. جميع الحقوق محفوظة.</div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/ai-service.js"></script>
+    <!-- File Extraction Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.21/mammoth.browser.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';</script>
+    <script src="js/generator.js"></script>
+    <script>new ParticleSystem('particles-canvas');</script>
+</body>
+</html>
