@@ -1,9 +1,10 @@
 // BrainBank OAE - Configuration
+// IMPORTANT: Never put API keys in this frontend configuration file! 
+// Keys will be read from Vercel Environment variables securely via the /api routes.
 const CONFIG = {
-    GEMINI_API_KEY: 'AIzaSyDn_bqcfho7oBc8iPB8s1Cl9ixRoh_jw9s',
-    GEMINI_API_URL: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
-    GROQ_API_KEY: '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',
-    GROQ_API_URL: 'https://api.groq.com/openai/v1/chat/completions',
+    // API endpoints changed to internal Vercel Serverless Functions
+    GROQ_API_URL: '/api/groq',
+    GEMINI_API_URL: '/api/gemini',
     GROQ_MODEL: 'llama-3.3-70b-versatile',
     APP_NAME: 'BrainBank OAE',
     APP_VERSION: '1.0.0',

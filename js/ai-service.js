@@ -5,7 +5,7 @@ const AIService = {
 
     async _callGeminiAPI(body, retryCount = 0) {
         try {
-            const response = await fetch(`${CONFIG.GEMINI_API_URL}?key=${CONFIG.GEMINI_API_KEY}`, {
+            const response = await fetch(CONFIG.GEMINI_API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body)
@@ -55,8 +55,7 @@ const AIService = {
             const response = await fetch(CONFIG.GROQ_API_URL, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${CONFIG.GROQ_API_KEY}`
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     model: CONFIG.GROQ_MODEL,
