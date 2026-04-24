@@ -75,44 +75,25 @@ const AIBankPage = {
         const letters = ['أ', 'ب', 'ج', 'د', 'هـ', 'و'];
 
         const questionsHTML = cat.questions.map((q, i) => {
-            let answerContent = '';
+            let studyContent = '';
+            
             if (q.type === 'mcq' && q.options) {
-                answerContent = `<div class="study-answer-title">✓ ${isAr ? 'الإجابة الصحيحة' : 'Correct Answer'}: ${letters[q.correctAnswer]}) ${q.options[q.correctAnswer]}</div>`;
-                answerContent += '<div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">';
-                q.options.forEach((opt, j) => {
-                    const mark = j === q.correctAnswer ? '✓' : '';
-                    const style = j === q.correctAnswer ? 'color:var(--color-secondary);font-weight:600' : 'color:var(--text-muted)';
-                    answerContent += `<div style="${style}">${letters[j]}) ${opt} ${mark}</div>`;
-                });
-                answerContent += '</div>';
+                studyContent = `<div style="color:var(--text-primary);font-weight:600;">🎯 ${q.options[q.correctAnswer]}</div>`;
             } else if (q.type === 'truefalse') {
-                answerContent = `<div class="study-answer-title">✓ ${isAr ? 'الإجابة' : 'Answer'}: ${q.correctAnswer ? (isAr ? 'صواب ✓' : 'True ✓') : (isAr ? 'خطأ ✗' : 'False ✗')}</div>`;
+                studyContent = `<div style="color:var(--text-primary);font-weight:600;">🎯 ${q.correctAnswer ? (isAr ? 'العبارة صحيحة' : 'True Statement') : (isAr ? 'العبارة خاطئة' : 'False Statement')}</div>`;
+            } else if (q.type === 'shortanswer' || q.type === 'essay') {
+                studyContent = `<div style="color:var(--text-primary);line-height:1.6;">🎯 ${q.correctAnswer}</div>`;
             }
-
-            const diffBadge = q.difficulty === 'easy' ? 'badge-success' : q.difficulty === 'hard' ? 'badge-danger' : 'badge-warning';
-            const diffLabel = { easy: { ar: 'سهل', en: 'Easy' }, medium: { ar: 'متوسط', en: 'Medium' }, hard: { ar: 'صعب', en: 'Hard' } };
 
             return `
             <div class="study-card">
-                <div class="study-card-header">
-                    <span class="study-q-num">${i + 1}</span>
-                    <div class="study-q-badges">
-                        <span class="badge ${diffBadge}">${(diffLabel[q.difficulty] || diffLabel.medium)[lang]}</span>
-                        <span class="badge badge-info">${q.type === 'mcq' ? 'MCQ' : 'T/F'}</span>
-                    </div>
+                <div class="study-card-header" style="margin-bottom:12px">
+                    <span class="study-q-num" style="background:var(--bg-tertiary);color:var(--color-primary);border:1px solid var(--border-glass)">${i + 1}</span>
                 </div>
-                <div class="study-q-text">${q.question}</div>
-                ${q.type === 'mcq' && q.options ? `<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
-                    ${q.options.map((opt, j) => `<div style="padding:8px 14px;background:var(--bg-tertiary);border-radius:var(--radius-sm);font-size:0.9rem;color:var(--text-secondary)">${letters[j]}) ${opt}</div>`).join('')}
-                </div>` : ''}
-                <div class="study-answer-toggle">
-                    <button class="btn btn-outline btn-sm" onclick="this.parentElement.nextElementSibling.classList.toggle('show'); this.textContent = this.textContent.includes('👁') ? '🙈 ${isAr ? 'إخفاء' : 'Hide'}' : '👁️ ${isAr ? 'إظهار الإجابة' : 'Show Answer'}'">
-                        👁️ ${isAr ? 'إظهار الإجابة' : 'Show Answer'}
-                    </button>
-                </div>
-                <div class="study-answer">
-                    ${answerContent}
-                    ${q.explanation ? `<div class="study-explanation">💡 ${q.explanation}</div>` : ''}
+                <div class="study-q-text" style="color:var(--color-primary-light);font-size:1.15rem;">${q.question}</div>
+                <div class="study-content" style="margin-top:16px;padding:16px;background:rgba(108,99,255,0.05);border-inline-start:3px solid var(--color-primary);border-radius:var(--radius-sm);">
+                    ${studyContent}
+                    ${q.explanation ? `<div class="study-explanation" style="margin-top:12px;color:var(--text-secondary);font-size:0.9rem;border-top:1px dashed rgba(255,255,255,0.1);padding-top:12px;background:transparent;border:none;">💡 <strong>${isAr ? 'شرح إضافي' : 'Explanation'}:</strong> ${q.explanation}</div>` : ''}
                 </div>
             </div>`;
         }).join('');
